@@ -17,11 +17,17 @@ const tasksSlice = createSlice({
                 task => task.id !== action.payload
             );
         },
+        toggleTask: (state, action) => {
+            const task = state.items.find(task => task.id === action.payload);
+            if (task) {
+                task.completed = !task.completed;
+            }
+        }
     },
 });
 
 
 
-export const { addTask,removeTask } = tasksSlice.actions;
+export const { addTask,removeTask,toggleTask } = tasksSlice.actions;
 
 export default tasksSlice.reducer;

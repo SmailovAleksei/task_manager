@@ -1,0 +1,58 @@
+.list-subtitle {
+    font-size: 1.15rem;
+    color: #9a9a9f;
+    margin-bottom: 16px;
+    font-weight: 500;
+}
+
+.task-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 16px;
+    background-color: #18181c; /* Серый фон плашки задачи */
+    border-radius: 8px;
+    border: 1px solid #28282c;
+    margin-bottom: 10px;
+}
+
+.task-text {
+    color: #e2e2e6;
+    font-size: 1rem;
+    margin-right: 12px;
+    word-break: break-word;
+    transition: color 0.2s, text-decoration 0.2s;
+    flex: 1;
+}
+
+/* Класс, который активируется при task.completed === true */
+.task-completed {
+    text-decoration: line-through;
+    color: #5c5c64 !important; /* Серый блеклый текст */
+}
+
+.task-checkbox {
+    width: 18px;
+    height: 18px;
+    accent-color: #5c5c64; /* Серый цвет галочки */
+    cursor: pointer;
+    order: -1; /* Магия CSS: ставит чекбокс левее текста */
+    margin-right: 12px;
+}
+
+.task-delete-btn {
+    background: none;
+    border: 1px solid #3e3e44;
+    color: #a0a0a5;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.task-delete-btn:hover {
+    background-color: #cf4343; /* Приглушенный красный при наведении */
+    border-color: #cf4343;
+    color: #ffffff;
+}

@@ -4,8 +4,8 @@ import TaskForm from "./components/TaskForm/TaskForm.jsx";
 function App() {
 
     return (
-        <div>
-            <h1>Task Manager Pro</h1>
+        <div className="app-container">
+            <h1 className="app-title">Task Manager Pro</h1>
 
             <TaskForm />
             <TaskList />

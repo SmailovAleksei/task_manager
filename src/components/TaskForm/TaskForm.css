@@ -1,0 +1,38 @@
+.task-form {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.form-input {
+    flex: 1;
+    padding: 12px 16px;
+    border: 1px solid #3e3e44;
+    border-radius: 8px;
+    background-color: #18181c; /* Глубокий серый для инпута */
+    color: #ffffff;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.form-input:focus {
+    border-color: #5c5c64;
+}
+
+.form-button {
+    padding: 12px 20px;
+    background-color: #4e4e56; /* Стальной серый цвет */
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    font-weight: 500;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    white-space: nowrap;
+}
+
+.form-button:hover {
+    background-color: #5c5c64;
+}
