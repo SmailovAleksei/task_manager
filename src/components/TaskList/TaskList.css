@@ -7,37 +7,55 @@
 
 .task-item {
     display: flex;
-    align-items: center;
+    /* ИЗМЕНИЛИ ЭТУ СТРОКУ: выравнивание по верхнему краю (по уровню текста) */
+    align-items: flex-start;
     justify-content: space-between;
     padding: 14px 16px;
-    background-color: #18181c; /* Серый фон плашки задачи */
+    background-color: #18181c;
     border-radius: 8px;
     border: 1px solid #28282c;
     margin-bottom: 10px;
 }
 
+/* === НОВЫЙ БЛОК: Выстраивает текст и дату столбиком === */
+.task-info-block {
+    display: flex;
+    flex-direction: column; /* Ставит дату строго под текст */
+    flex: 1;                /* Занимает всю середину, отодвигая кнопку вправо */
+    margin-right: 12px;     /* Отступ перед кнопкой "Удалить" */
+}
+
 .task-text {
     color: #e2e2e6;
     font-size: 1rem;
-    margin-right: 12px;
     word-break: break-word;
     transition: color 0.2s, text-decoration 0.2s;
-    flex: 1;
+    /* Убрали flex: 1 и margin-right отсюда, так как они теперь на контейнере */
+}
+
+/* === НОВЫЙ БЛОК: Стили для красивого вывода даты === */
+.task-date {
+    font-size: 0.8rem;      /* Чуть меньше основного текста */
+    color: #5c5c64;         /* Приглушенный серый цвет в тон темы */
+    margin-top: 4px;        /* Небольшой отступ сверху от текста задачи */
 }
 
 /* Класс, который активируется при task.completed === true */
 .task-completed {
     text-decoration: line-through;
-    color: #5c5c64 !important; /* Серый блеклый текст */
+    color: #5c5c64; /* Серый блеклый текст */
 }
 
 .task-checkbox {
     width: 18px;
     height: 18px;
+    min-width: 18px;   /* ЖЕСТКО ЗАПРЕЩАЕМ чекбоксу сжиматься */
+    min-height: 18px;  /* ЖЕСТКО ЗАПРЕЩАЕМ чекбоксу сжиматься */
+    flex-shrink: 0;    /* Запрещаем flex-контейнеру уменьшать этот элемент */
     accent-color: #5c5c64; /* Серый цвет галочки */
     cursor: pointer;
-    order: -1; /* Магия CSS: ставит чекбокс левее текста */
     margin-right: 12px;
+    margin-top: 2px;   /* Выравнивание по верхней строчке текста */
 }
 
 .task-delete-btn {
@@ -55,4 +73,29 @@
     background-color: #cf4343; /* Приглушенный красный при наведении */
     border-color: #cf4343;
     color: #ffffff;
+}
+
+/* Контейнер для кнопок фильтрации */
+.filter-buttons {
+    display: flex;
+    gap: 10px;            /* Отступ МЕЖДУ кнопками фильтра */
+    margin-top: 12px;     /* Отступ сверху от заголовка "Список задач" */
+    margin-bottom: 24px;  /* Отступ СНИЗУ между кнопками и первыми задачами */
+}
+
+/* Стили самих кнопок (чтобы они выглядели аккуратно) */
+.filter-btn {
+    background-color: #18181c;
+    border: 1px solid #28282c;
+    color: #a0a0a5;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.filter-btn:hover {
+    background-color: #28282c;
+    color: #e2e2e6;
 }

@@ -17,6 +17,7 @@ function TaskForm() {
             addTask({
                 id: Date.now(),
                 title: title,
+                createdAt: new Date().toISOString(),
                 completed: false
             })
         );
