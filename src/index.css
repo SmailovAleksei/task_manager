@@ -1,23 +1,30 @@
 body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-}
-
-.app-container {
-  max-width: 500px;
-  margin: 50px auto;
-  padding: 25px;
-  background-color: #222227; /* Тёмно-серый фон контейнера */
-  border-radius: 12px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-  font-family: system-ui, -apple-system, sans-serif;
-}
-
-.app-title {
-  text-align: center;
+  background-color: #0e0e11; /* Самый глубокий темный цвет для фона всей страницы */
   color: #ffffff;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  margin: 0;
+  padding: 40px 20px;
+  display: flex;
+  justify-content: center; /* Центрируем приложение по горизонтали */
+  align-index: flex-start;
+}
+
+/* Оболочка самого приложения (выделяющийся блок) */
+.app-container {
+  width: 100%;
+  max-width: 550px;       /* Оптимальная ширина для таск-менеджера */
+  background-color: #111114; /* Чуть светлее, чем body, чтобы блок выделялся */
+  padding: 30px;
+  border-radius: 16px;    /* Красивые скругленные углы блока */
+  border: 1px solid #1f1f23; /* Едва заметная рамка для объема */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); /* Мягкая тень под блоком */
+}
+
+/* Стили для главного заголовка (например, "Мои задачи") */
+.app-title {
   font-size: 1.75rem;
-  margin-bottom: 24px;
   font-weight: 600;
-  letter-spacing: -0.5px;
+  color: #ffffff;
+  margin-top: 0;
+  margin-bottom: 24px;
 }

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { removeTask, toggleTask } from '../../features/tasks/tasksSlice';
 import './TaskList.css';
@@ -18,7 +18,9 @@ function TaskList() {
     );
 
     // Логика фильтрации через переменную filteredTasks
-    const filteredTasks = tasks.filter(task => {
+    const safeTasks = Array.isArray(tasks) ? tasks : [];
+
+    const filteredTasks = safeTasks.filter(task => {
         if (filterStatus === 'active') return !task.completed;
         if (filterStatus === 'completed') return task.completed;
         return true;
