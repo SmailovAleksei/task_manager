@@ -30,6 +30,26 @@ function TaskList() {
         return true;
     });
 
+    // Функция сохранения изменений
+    const handleSave = (id) => {
+        // Проверка на пустую строку (удаляем пробелы по краям)
+        if (!editTitle.trim()) return;
+        dispatch(
+            editTask({
+                id,
+                title: editTitle
+            })
+        );
+        setEditingId(null);
+        setEditTitle(''); // Очищаем состояние после сохранения
+    };
+
+    // Функция отмены редактирования
+    const handleCancel = () => {
+        setEditingId(null);
+        setEditTitle(''); // Очищаем состояние при отмене
+    };
+
     return (
         <div>
             <h2>Список задач</h2>
@@ -72,13 +92,14 @@ function TaskList() {
                         />
 
                         <div className="task-info-block">
-                            {/* Условный рендеринг: инпут ИЛИ текст задачи */}
+                            {/* Условный рендеринг: ПОЛНОЦЕННЫЙ управляемый инпут ИЛИ текст задачи */}
                             {editingId === task.id ? (
                                 <input
                                     type="text"
                                     value={editTitle}
                                     onChange={(e) => setEditTitle(e.target.value)}
                                     className="task-edit-input"
+                                    autoFocus // Инпут автоматически станет активным при открытии
                                 />
                             ) : (
                                 <span className={`task-text ${task.completed ? 'task-completed' : ''}`}>
@@ -94,16 +115,13 @@ function TaskList() {
                         {editingId === task.id ? (
                             <div className="task-actions-edit">
                                 <button
-                                    onClick={() => {
-                                        dispatch(editTask({ id: task.id, title: editTitle }));
-                                        setEditingId(null);
-                                    }}
+                                    onClick={() => handleSave(task.id)}
                                     className="task-save-btn"
                                 >
                                     Сохранить
                                 </button>
                                 <button
-                                    onClick={() => setEditingId(null)}
+                                    onClick={handleCancel}
                                     className="task-cancel-btn"
                                 >
                                     Отмена
