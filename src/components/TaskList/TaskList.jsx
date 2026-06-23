@@ -1,12 +1,13 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { removeTask, toggleTask, editTask } from '../../features/tasks/tasksSlice';
+import Filters from '../Filters/Filters.jsx'; // Импортируем новый компонент
 import './TaskList.css';
 
 function TaskList() {
     const dispatch = useDispatch();
 
-    // Состояния для фильтрации
+    // Состояния для фильтрации (остаются здесь, так как нужны для filteredTasks)
     const [filterStatus, setFilterStatus] = useState('all');
 
     // Локальные состояния для режима редактирования
@@ -32,49 +33,24 @@ function TaskList() {
 
     // Функция сохранения изменений
     const handleSave = (id) => {
-        // Проверка на пустую строку (удаляем пробелы по краям)
         if (!editTitle.trim()) return;
-        dispatch(
-            editTask({
-                id,
-                title: editTitle
-            })
-        );
+        dispatch(editTask({ id, title: editTitle }));
         setEditingId(null);
-        setEditTitle(''); // Очищаем состояние после сохранения
+        setEditTitle('');
     };
 
     // Функция отмены редактирования
     const handleCancel = () => {
         setEditingId(null);
-        setEditTitle(''); // Очищаем состояние при отмене
+        setEditTitle('');
     };
 
     return (
         <div>
             <h2>Список задач</h2>
 
-            {/* Блок кнопок переключения фильтров */}
-            <div className="filter-buttons">
-                <button
-                    className={`filter-btn ${filterStatus === 'all' ? 'active' : ''}`}
-                    onClick={() => setFilterStatus('all')}
-                >
-                    Все
-                </button>
-                <button
-                    className={`filter-btn ${filterStatus === 'active' ? 'active' : ''}`}
-                    onClick={() => setFilterStatus('active')}
-                >
-                    Активные
-                </button>
-                <button
-                    className={`filter-btn ${filterStatus === 'completed' ? 'active' : ''}`}
-                    onClick={() => setFilterStatus('completed')}
-                >
-                    Выполненные
-                </button>
-            </div>
+            {/* Рендерим компонент фильтров и передаем пропсы */}
+            <Filters filterStatus={filterStatus} setFilterStatus={setFilterStatus} />
 
             {/* Рендеринг отфильтрованного массива filteredTasks */}
             {filteredTasks.map((task) => {
@@ -92,14 +68,14 @@ function TaskList() {
                         />
 
                         <div className="task-info-block">
-                            {/* Условный рендеринг: ПОЛНОЦЕННЫЙ управляемый инпут ИЛИ текст задачи */}
+                            {/* Условный рендеринг: инпут ИЛИ текст задачи */}
                             {editingId === task.id ? (
                                 <input
                                     type="text"
                                     value={editTitle}
                                     onChange={(e) => setEditTitle(e.target.value)}
                                     className="task-edit-input"
-                                    autoFocus // Инпут автоматически станет активным при открытии
+                                    autoFocus
                                 />
                             ) : (
                                 <span className={`task-text ${task.completed ? 'task-completed' : ''}`}>
