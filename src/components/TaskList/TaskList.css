@@ -7,7 +7,6 @@
 
 .task-item {
     display: flex;
-    /* ИЗМЕНИЛИ ЭТУ СТРОКУ: выравнивание по верхнему краю (по уровню текста) */
     align-items: flex-start;
     justify-content: space-between;
     padding: 14px 16px;
@@ -17,12 +16,11 @@
     margin-bottom: 10px;
 }
 
-/* === НОВЫЙ БЛОК: Выстраивает текст и дату столбиком === */
 .task-info-block {
     display: flex;
-    flex-direction: column; /* Ставит дату строго под текст */
-    flex: 1;                /* Занимает всю середину, отодвигая кнопку вправо */
-    margin-right: 12px;     /* Отступ перед кнопкой "Удалить" */
+    flex-direction: column;
+    flex: 1;
+    margin-right: 12px;
 }
 
 .task-text {
@@ -30,32 +28,29 @@
     font-size: 1rem;
     word-break: break-word;
     transition: color 0.2s, text-decoration 0.2s;
-    /* Убрали flex: 1 и margin-right отсюда, так как они теперь на контейнере */
 }
 
-/* === НОВЫЙ БЛОК: Стили для красивого вывода даты === */
 .task-date {
-    font-size: 0.8rem;      /* Чуть меньше основного текста */
-    color: #5c5c64;         /* Приглушенный серый цвет в тон темы */
-    margin-top: 4px;        /* Небольшой отступ сверху от текста задачи */
+    font-size: 0.8rem;
+    color: #5c5c64;
+    margin-top: 4px;
 }
 
-/* Класс, который активируется при task.completed === true */
 .task-completed {
     text-decoration: line-through;
-    color: #5c5c64; /* Серый блеклый текст */
+    color: #5c5c64;
 }
 
 .task-checkbox {
     width: 18px;
     height: 18px;
-    min-width: 18px;   /* ЖЕСТКО ЗАПРЕЩАЕМ чекбоксу сжиматься */
-    min-height: 18px;  /* ЖЕСТКО ЗАПРЕЩАЕМ чекбоксу сжиматься */
-    flex-shrink: 0;    /* Запрещаем flex-контейнеру уменьшать этот элемент */
-    accent-color: #5c5c64; /* Серый цвет галочки */
+    min-width: 18px;
+    min-height: 18px;
+    flex-shrink: 0;
+    accent-color: #5c5c64;
     cursor: pointer;
     margin-right: 12px;
-    margin-top: 2px;   /* Выравнивание по верхней строчке текста */
+    margin-top: 2px;
 }
 
 .task-delete-btn {
@@ -70,20 +65,18 @@
 }
 
 .task-delete-btn:hover {
-    background-color: #cf4343; /* Приглушенный красный при наведении */
+    background-color: #cf4343;
     border-color: #cf4343;
     color: #ffffff;
 }
 
-/* Контейнер для кнопок фильтрации */
 .filter-buttons {
     display: flex;
-    gap: 10px;            /* Отступ МЕЖДУ кнопками фильтра */
-    margin-top: 12px;     /* Отступ сверху от заголовка "Список задач" */
-    margin-bottom: 24px;  /* Отступ СНИЗУ между кнопками и первыми задачами */
+    gap: 10px;
+    margin-top: 12px;
+    margin-bottom: 24px;
 }
 
-/* Стили самих кнопок (чтобы они выглядели аккуратно) */
 .filter-btn {
     background-color: #18181c;
     border: 1px solid #28282c;
@@ -98,4 +91,74 @@
 .filter-btn:hover {
     background-color: #28282c;
     color: #e2e2e6;
+}
+
+.filter-btn.active {
+    background-color: #28282c;
+    border-color: #5c5c64;
+    color: #e2e2e6;
+}
+
+.task-edit-input {
+    background-color: #121214;
+    border: 1px solid #3e3e44;
+    color: #e2e2e6;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-family: inherit;
+    outline: none;
+    width: 100%;
+    box-sizing: border-box;
+    transition: border-color 0.2s;
+}
+
+.task-edit-input:focus {
+    border-color: #5c5c64;
+}
+
+.task-edit-btn, .task-save-btn {
+    background: none;
+    border: 1px solid #3e3e44;
+    color: #a0a0a5;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.task-edit-btn:hover {
+    background-color: #28282c;
+    color: #e2e2e6;
+    border-color: #5c5c64;
+}
+
+.task-save-btn:hover {
+    background-color: #2e5c3e;
+    border-color: #3e7c53;
+    color: #ffffff;
+}
+
+.task-cancel-btn {
+    background: none;
+    border: 1px solid transparent;
+    color: #707075;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.task-cancel-btn:hover {
+    color: #e2e2e6;
+}
+
+/* === Контейнеры для кнопок (вместо инлайновых стилей) === */
+.task-actions-view,
+.task-actions-edit {
+    display: flex;
+    align-items: center;
+    gap: 8px; /* Красивые одинаковые отступы между кнопками */
 }

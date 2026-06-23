@@ -10,15 +10,19 @@ function App() {
 
     // 1. Загрузка из localStorage ОДИН раз при старте
     useEffect(() => {
-        const saved = localStorage.getItem('tasks');
-        if (saved) dispatch(loadTasks(JSON.parse(saved)));
-    }, [dispatch]);
+        try {
+            const saved = localStorage.getItem('tasks');
 
+            if (saved) {
+                dispatch(loadTasks(JSON.parse(saved)));
+            }
+        } catch (error) {
+            console.error('Ошибка чтения localStorage', error);
+        }
+    }, [dispatch]);
     // 2. Авто-сохранение при каждом изменении списка задач
     useEffect(() => {
-        if (Array.isArray(tasks)) {
             localStorage.setItem('tasks', JSON.stringify(tasks));
-        }
     }, [tasks]);
 
     return (

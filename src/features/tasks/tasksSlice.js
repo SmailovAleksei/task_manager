@@ -10,10 +10,6 @@ const tasksSlice = createSlice({
 
     reducers: {
         addTask: (state, action) => {
-            // state.items.push(action.payload);
-            if (!Array.isArray(state.items)) {
-                state.items = [];
-            }
             state.items.push(action.payload);
         },
         removeTask: (state, action) => {
@@ -28,15 +24,22 @@ const tasksSlice = createSlice({
             }
         },
         loadTasks: (state, action) => {
-            // state.items = action.payload;
-            // Защита: если из localStorage пришел не массив, принудительно ставим пустой массив
             state.items = Array.isArray(action.payload) ? action.payload : [];
+        },
+        editTask: (state, action) => {
+            const task = state.items.find(
+                item => item.id === action.payload.id
+            );
+
+            if (task) {
+                task.title = action.payload.title;
+            }
         }
     },
 });
 
 
 
-export const { addTask,removeTask,toggleTask,loadTasks } = tasksSlice.actions;
+export const { addTask,removeTask,toggleTask,loadTasks,editTask } = tasksSlice.actions;
 
 export default tasksSlice.reducer;

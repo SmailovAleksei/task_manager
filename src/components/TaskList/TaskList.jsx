@@ -1,13 +1,17 @@
-import { useState,useEffect } from 'react';
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { removeTask, toggleTask } from '../../features/tasks/tasksSlice';
+import { removeTask, toggleTask, editTask } from '../../features/tasks/tasksSlice';
 import './TaskList.css';
 
 function TaskList() {
     const dispatch = useDispatch();
 
-    // Переименовали состояние в filterStatus
+    // Состояния для фильтрации
     const [filterStatus, setFilterStatus] = useState('all');
+
+    // Локальные состояния для режима редактирования
+    const [editingId, setEditingId] = useState(null);
+    const [editTitle, setEditTitle] = useState('');
 
     const handleRemoveTask = (id) => {
         dispatch(removeTask(id));
@@ -68,17 +72,59 @@ function TaskList() {
                         />
 
                         <div className="task-info-block">
-                            <span className={`task-text ${task.completed ? 'task-completed' : ''}`}>
-                                {task.title}
-                            </span>
+                            {/* Условный рендеринг: инпут ИЛИ текст задачи */}
+                            {editingId === task.id ? (
+                                <input
+                                    type="text"
+                                    value={editTitle}
+                                    onChange={(e) => setEditTitle(e.target.value)}
+                                    className="task-edit-input"
+                                />
+                            ) : (
+                                <span className={`task-text ${task.completed ? 'task-completed' : ''}`}>
+                                    {task.title}
+                                </span>
+                            )}
                             <div className="task-date">
                                 Создано: {formattedDate}
                             </div>
                         </div>
 
-                        <button onClick={() => handleRemoveTask(task.id)} className="task-delete-btn">
-                            Удалить
-                        </button>
+                        {/* Условный рендеринг КНОПОК */}
+                        {editingId === task.id ? (
+                            <div className="task-actions-edit">
+                                <button
+                                    onClick={() => {
+                                        dispatch(editTask({ id: task.id, title: editTitle }));
+                                        setEditingId(null);
+                                    }}
+                                    className="task-save-btn"
+                                >
+                                    Сохранить
+                                </button>
+                                <button
+                                    onClick={() => setEditingId(null)}
+                                    className="task-cancel-btn"
+                                >
+                                    Отмена
+                                </button>
+                            </div>
+                        ) : (
+                            <div className="task-actions-view">
+                                <button onClick={() => handleRemoveTask(task.id)} className="task-delete-btn">
+                                    Удалить
+                                </button>
+                                <button
+                                    onClick={() => {
+                                        setEditingId(task.id);
+                                        setEditTitle(task.title);
+                                    }}
+                                    className="task-edit-btn"
+                                >
+                                    Редактировать
+                                </button>
+                            </div>
+                        )}
                     </div>
                 );
             })}
