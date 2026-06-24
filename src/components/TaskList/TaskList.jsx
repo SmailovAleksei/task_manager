@@ -1,28 +1,16 @@
 import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { removeTask, toggleTask, editTask } from '../../features/tasks/tasksSlice';
-import Filters from '../Filters/Filters.jsx'; // Импортируем новый компонент
+import { useSelector } from 'react-redux';
+import Filters from '../Filters/Filters.jsx';
+import TaskItem from '../TaskItem/TaskItem.jsx'; // Импортируем новый компонент
 import './TaskList.css';
 
 function TaskList() {
-    const dispatch = useDispatch();
-
-    // Состояния для фильтрации (остаются здесь, так как нужны для filteredTasks)
+    // Состояние для фильтрации остается здесь, так как оно нужно для filteredTasks
     const [filterStatus, setFilterStatus] = useState('all');
 
-    // Локальные состояния для режима редактирования
-    const [editingId, setEditingId] = useState(null);
-    const [editTitle, setEditTitle] = useState('');
+    const tasks = useSelector((state) => state.tasks.items);
 
-    const handleRemoveTask = (id) => {
-        dispatch(removeTask(id));
-    };
-
-    const tasks = useSelector(
-        (state) => state.tasks.items
-    );
-
-    // Логика фильтрации через переменную filteredTasks
+    // Логика фильтрации
     const safeTasks = Array.isArray(tasks) ? tasks : [];
 
     const filteredTasks = safeTasks.filter(task => {
@@ -31,97 +19,17 @@ function TaskList() {
         return true;
     });
 
-    // Функция сохранения изменений
-    const handleSave = (id) => {
-        if (!editTitle.trim()) return;
-        dispatch(editTask({ id, title: editTitle }));
-        setEditingId(null);
-        setEditTitle('');
-    };
-
-    // Функция отмены редактирования
-    const handleCancel = () => {
-        setEditingId(null);
-        setEditTitle('');
-    };
-
     return (
         <div>
             <h2>Список задач</h2>
 
-            {/* Рендерим компонент фильтров и передаем пропсы */}
+            {/* Компонент фильтров */}
             <Filters filterStatus={filterStatus} setFilterStatus={setFilterStatus} />
 
-            {/* Рендеринг отфильтрованного массива filteredTasks */}
-            {filteredTasks.map((task) => {
-                const formattedDate = new Date(
-                    task.createdAt
-                ).toLocaleString('ru-RU');
-
-                return (
-                    <div key={task.id} className="task-item">
-                        <input
-                            type="checkbox"
-                            checked={task.completed}
-                            onChange={() => dispatch(toggleTask(task.id))}
-                            className="task-checkbox"
-                        />
-
-                        <div className="task-info-block">
-                            {/* Условный рендеринг: инпут ИЛИ текст задачи */}
-                            {editingId === task.id ? (
-                                <input
-                                    type="text"
-                                    value={editTitle}
-                                    onChange={(e) => setEditTitle(e.target.value)}
-                                    className="task-edit-input"
-                                    autoFocus
-                                />
-                            ) : (
-                                <span className={`task-text ${task.completed ? 'task-completed' : ''}`}>
-                                    {task.title}
-                                </span>
-                            )}
-                            <div className="task-date">
-                                Создано: {formattedDate}
-                            </div>
-                        </div>
-
-                        {/* Условный рендеринг КНОПОК */}
-                        {editingId === task.id ? (
-                            <div className="task-actions-edit">
-                                <button
-                                    onClick={() => handleSave(task.id)}
-                                    className="task-save-btn"
-                                >
-                                    Сохранить
-                                </button>
-                                <button
-                                    onClick={handleCancel}
-                                    className="task-cancel-btn"
-                                >
-                                    Отмена
-                                </button>
-                            </div>
-                        ) : (
-                            <div className="task-actions-view">
-                                <button onClick={() => handleRemoveTask(task.id)} className="task-delete-btn">
-                                    Удалить
-                                </button>
-                                <button
-                                    onClick={() => {
-                                        setEditingId(task.id);
-                                        setEditTitle(task.title);
-                                    }}
-                                    className="task-edit-btn"
-                                >
-                                    Редактировать
-                                </button>
-                            </div>
-                        )}
-                    </div>
-                );
-            })}
+            {/* Рендеринг ультра-лаконичного списка через TaskItem */}
+            {filteredTasks.map((task) => (
+                <TaskItem key={task.id} task={task} />
+            ))}
         </div>
     );
 }
