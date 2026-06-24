@@ -11,13 +11,11 @@ function TaskList() {
 
     const tasks = useSelector((state) => state.tasks.items);
 
-    const safeTasks = Array.isArray(tasks) ? tasks : [];
+    // Подсчет выполненных задач для управления кнопкой массовой очистки
+    const completedCount = tasks.filter(task => task.completed).length;
 
-    // Вычисляем количество выполненных задач, чтобы динамически управлять
-    // отображением кнопки массовой очистки и выводить счетчик для пользователя.
-    const completedCount = safeTasks.filter(task => task.completed).length;
-
-    const filteredTasks = safeTasks.filter(task => {
+    // Логика фильтрации списка
+    const filteredTasks = tasks.filter(task => {
         if (filterStatus === 'active') return !task.completed;
         if (filterStatus === 'completed') return task.completed;
         return true;
@@ -30,15 +28,12 @@ function TaskList() {
             {/* Компонент фильтров */}
             <Filters filterStatus={filterStatus} setFilterStatus={setFilterStatus} />
 
-            {/* Рендеринг ультра-лаконичного списка через TaskItem */}
+            {/* Рендеринг списка задач */}
             {filteredTasks.map((task) => (
                 <TaskItem key={task.id} task={task} />
             ))}
 
-            {/*
-                Условный рендеринг: кнопка появляется в DOM только тогда,
-                когда в списке есть хотя бы одна выполненная задача, требующая удаления.
-            */}
+            {/* Кнопка удаления выполненных задач */}
             {completedCount > 0 && (
                 <button
                     onClick={() => dispatch(clearCompleted())}
