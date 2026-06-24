@@ -1,17 +1,21 @@
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import Filters from '../Filters/Filters.jsx';
-import TaskItem from '../TaskItem/TaskItem.jsx'; // Импортируем новый компонент
+import TaskItem from '../TaskItem/TaskItem.jsx';
 import './TaskList.css';
+import { clearCompleted } from '../../features/tasks/tasksSlice';
 
 function TaskList() {
-    // Состояние для фильтрации остается здесь, так как оно нужно для filteredTasks
     const [filterStatus, setFilterStatus] = useState('all');
+    const dispatch = useDispatch();
 
     const tasks = useSelector((state) => state.tasks.items);
 
-    // Логика фильтрации
     const safeTasks = Array.isArray(tasks) ? tasks : [];
+
+    // Вычисляем количество выполненных задач, чтобы динамически управлять
+    // отображением кнопки массовой очистки и выводить счетчик для пользователя.
+    const completedCount = safeTasks.filter(task => task.completed).length;
 
     const filteredTasks = safeTasks.filter(task => {
         if (filterStatus === 'active') return !task.completed;
@@ -30,6 +34,19 @@ function TaskList() {
             {filteredTasks.map((task) => (
                 <TaskItem key={task.id} task={task} />
             ))}
+
+            {/*
+                Условный рендеринг: кнопка появляется в DOM только тогда,
+                когда в списке есть хотя бы одна выполненная задача, требующая удаления.
+            */}
+            {completedCount > 0 && (
+                <button
+                    onClick={() => dispatch(clearCompleted())}
+                    className="clear-completed-btn"
+                >
+                    Удалить выполненные ({completedCount})
+                </button>
+            )}
         </div>
     );
 }
