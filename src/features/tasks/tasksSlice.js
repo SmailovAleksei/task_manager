@@ -16,13 +16,17 @@ const tasksSlice = createSlice({
 
         // 1. Изменили: теперь задача перемещается в корзину, а не удаляется насовсем
         removeTask: (state, action) => {
-            const taskIndex = state.items.findIndex(task => task.id === action.payload);
-            if (taskIndex !== -1) {
-                // Забираем задачу из основного списка
-                const [removedTask] = state.items.splice(taskIndex, 1);
-                // Добавляем её в корзину
-                state.trash.push(removedTask);
-            }
+            const task = state.items.find(
+                task => task.id === action.payload
+            );
+
+            if (!task) return;
+
+            state.trash.push(task);
+
+            state.items = state.items.filter(
+                task => task.id !== action.payload
+            );
         },
 
         // 2. Новое: восстановление задачи из корзины обратно в активные
@@ -52,11 +56,15 @@ const tasksSlice = createSlice({
         },
 
         loadTasks: (state, action) => {
-            // Если вы загружаете из localStorage, данные должны быть объектом с items и trash
-            if (action.payload && typeof action.payload === 'object') {
-                state.items = Array.isArray(action.payload.items) ? action.payload.items : [];
-                state.trash = Array.isArray(action.payload.trash) ? action.payload.trash : [];
-            }
+            const data = action.payload ?? {};
+
+            state.items = Array.isArray(data.items)
+                ? data.items
+                : [];
+
+            state.trash = Array.isArray(data.trash)
+                ? data.trash
+                : [];
         },
 
         editTask: (state, action) => {

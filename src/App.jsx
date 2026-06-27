@@ -11,29 +11,43 @@ function App() {
     const tasksState = useSelector((state) => state.tasks);
     const dispatch = useDispatch();
 
-    // 1. Изменили: теперь начальное значение вкладки берется из localStorage. Если его там нет — ставим 'tasks'
     const [currentTab, setCurrentTab] = useState(() => {
-        return localStorage.getItem('currentTab') || 'tasks';
+        try {
+            return localStorage.getItem('currentTab') || 'tasks';
+        } catch {
+            return 'tasks'; // Защита на случай отключенных куки/хранилища
+        }
     });
 
+    // 1. Улучшенное чтение с проверкой parsed JSON (ваш вариант)
     useEffect(() => {
         try {
             const saved = localStorage.getItem('tasks');
-            if (saved) {
-                dispatch(loadTasks(JSON.parse(saved)));
-            }
+            if (!saved) return;
+
+            const parsed = JSON.parse(saved);
+            dispatch(loadTasks(parsed));
         } catch (error) {
             console.error('Ошибка чтения localStorage', error);
         }
     }, [dispatch]);
 
+    // 2. Безопасное сохранение состояния с защитой от переполнения (ваш вариант)
     useEffect(() => {
-        localStorage.setItem('tasks', JSON.stringify(tasksState));
+        try {
+            localStorage.setItem('tasks', JSON.stringify(tasksState));
+        } catch (error) {
+            console.error('Не удалось сохранить задачи в localStorage (возможно, память переполнена):', error);
+        }
     }, [tasksState]);
 
-    // 2. Добавили: авто-сохранение текущей вкладки при её изменении
+    // Безопасное сохранение вкладки
     useEffect(() => {
-        localStorage.setItem('currentTab', currentTab);
+        try {
+            localStorage.setItem('currentTab', currentTab);
+        } catch (error) {
+            console.error('Ошибка сохранения вкладки', error);
+        }
     }, [currentTab]);
 
     return (
