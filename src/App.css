@@ -1,0 +1,38 @@
+/* Панель переключения вкладок */
+.tab-navigation {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 24px;
+    background-color: #1b1b1f; /* Темная подложка */
+    padding: 4px;
+    border-radius: 8px;
+    border: 1px solid #26262b;
+}
+
+/* Базовый стиль кнопок */
+.tab-btn {
+    flex: 1;
+    padding: 10px 16px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #a1a1aa; /* Приглушенный текст */
+    background: transparent;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.tab-btn:hover {
+    color: #ffffff;
+    background-color: rgba(255, 255, 255, 0.03);
+}
+
+/* Стиль для активной вкладки */
+.tab-btn.active {
+    color: #ffffff;
+    background-color: #27272a; /* Выделяющийся серый блок */
+    font-weight: 600;
+    border: 1px solid #3f3f46;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}

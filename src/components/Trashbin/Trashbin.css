@@ -1,0 +1,85 @@
+.trash-bin {
+    padding: 10px 0;
+}
+
+.clear-trash-btn {
+    margin-bottom: 15px;
+    padding: 8px 16px;
+    background-color: #dc3545;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.2s ease;
+}
+
+.clear-trash-btn:hover {
+    background-color: #bd2130;
+}
+
+.trash-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.trash-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    background-color: #fcfcfc;
+}
+
+.trash-task-title {
+    font-size: 16px;
+    color: #333;
+}
+
+.trash-task-title.completed {
+    text-decoration: line-through;
+    color: #888;
+}
+
+.trash-task-date {
+    font-size: 12px;
+    color: #777;
+    margin-top: 4px;
+}
+
+.trash-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.task-restore-btn {
+    padding: 6px 12px;
+    background-color: #007bff;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.task-restore-btn:hover {
+    background-color: #0069d9;
+}
+
+.task-delete-perm-btn {
+    padding: 6px 12px;
+    background-color: #ff4d4d;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.task-delete-perm-btn:hover {
+    background-color: #e60000;
+}
+
