@@ -5,26 +5,26 @@ import TaskForm from "./components/TaskForm/TaskForm.jsx";
 import Statistics from "./components/Statistics/Statistics.jsx";
 import TaskList from "./components/TaskList/TaskList.jsx";
 import TrashBin from "./components/TrashBin/TrashBin.jsx";
+import Search from "./components/Search/Search.jsx";
 import './App.css';
 
 function App() {
     const tasksState = useSelector((state) => state.tasks);
     const dispatch = useDispatch();
 
+    const [searchText, setSearchText] = useState('');
     const [currentTab, setCurrentTab] = useState(() => {
         try {
             return localStorage.getItem('currentTab') || 'tasks';
         } catch {
-            return 'tasks'; // Защита на случай отключенных куки/хранилища
+            return 'tasks';
         }
     });
 
-    // 1. Улучшенное чтение с проверкой parsed JSON (ваш вариант)
     useEffect(() => {
         try {
             const saved = localStorage.getItem('tasks');
             if (!saved) return;
-
             const parsed = JSON.parse(saved);
             dispatch(loadTasks(parsed));
         } catch (error) {
@@ -32,16 +32,14 @@ function App() {
         }
     }, [dispatch]);
 
-    // 2. Безопасное сохранение состояния с защитой от переполнения (ваш вариант)
     useEffect(() => {
         try {
             localStorage.setItem('tasks', JSON.stringify(tasksState));
         } catch (error) {
-            console.error('Не удалось сохранить задачи в localStorage (возможно, память переполнена):', error);
+            console.error('Не удалось сохранить задачи в localStorage:', error);
         }
     }, [tasksState]);
 
-    // Безопасное сохранение вкладки
     useEffect(() => {
         try {
             localStorage.setItem('currentTab', currentTab);
@@ -69,13 +67,16 @@ function App() {
                 </button>
             </div>
 
+            <Search value={searchText} onChange={setSearchText} />
+
             {currentTab === 'tasks' ? (
                 <>
                     <TaskForm />
                     <Statistics />
-                    <TaskList />
+                    <TaskList searchText={searchText} />
                 </>
             ) : (
+                /* ИСПРАВЛЕНИЕ: Убрали лишний prop searchText, корзина теперь чистая */
                 <TrashBin />
             )}
         </div>

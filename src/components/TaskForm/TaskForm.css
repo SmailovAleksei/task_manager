@@ -37,3 +37,27 @@
     background-color: #5c5c64;
 }
 
+.form-priority-select {
+    padding: 12px 16px;
+    border: 1px solid #3e3e44;
+    border-radius: 8px;
+    background-color: #18181c; /* Тот же глубокий серый */
+    color: #ffffff;
+    font-size: 1rem;
+    font-family: inherit;
+    outline: none;
+    cursor: pointer;
+    transition: border-color 0.2s;
+}
+
+/* Эффект фокуса полностью совпадает с .form-input:focus */
+.form-priority-select:focus {
+    border-color: #5c5c64;
+}
+
+/* Стилизация выпадающих вариантов для поддержки темной темы */
+.form-priority-select option {
+    background-color: #18181c;
+    color: #ffffff;
+}
+
