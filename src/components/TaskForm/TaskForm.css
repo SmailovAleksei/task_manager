@@ -1,16 +1,27 @@
+/* Главный контейнер формы — выравнивание элементов */
 .task-form {
     display: flex;
     gap: 12px;
     margin-bottom: 24px;
+    align-items: center;
 }
 
+/* Базовые общие настройки для шрифтов и боксовой модели */
+.form-input,
+.form-priority-select,
+.form-button {
+    font-family: inherit;
+    box-sizing: border-box; /* Защита от прыжков высоты */
+}
+
+/* Текстовое поле ввода — яркий текст, как у названия ваших задач (.task-text) */
 .form-input {
     flex: 1;
     padding: 12px 16px;
     border: 1px solid #3e3e44;
     border-radius: 8px;
-    background-color: #18181c; /* Глубокий серый для инпута */
-    color: #ffffff;
+    background-color: #18181c;
+    color: #e2e2e6; /* Цвет совпадает с вашим .task-text */
     font-size: 1rem;
     outline: none;
     transition: border-color 0.2s;
@@ -20,6 +31,39 @@
     border-color: #5c5c64;
 }
 
+/* Выпадающий список приоритетов — копия вашей кнопки фильтра (.filter-btn) и (.sort-select) */
+.form-priority-select {
+    background-color: #18181c;
+    border: 1px solid #28282c; /* Граница как у .filter-btn */
+    color: #a0a0a5; /* Приглушенный цвет текста, как у ваших фильтров и кнопок */
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-size: 0.9rem; /* Размер шрифта как у .filter-btn */
+    cursor: pointer;
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+/* Эффект наведения на селект — копия вашего .filter-btn:hover */
+.form-priority-select:hover {
+    background-color: #28282c;
+    color: #e2e2e6;
+}
+
+/* Эффект фокуса на селект — копия вашего .filter-btn.active */
+.form-priority-select:focus {
+    background-color: #28282c;
+    border-color: #5c5c64;
+    color: #e2e2e6;
+}
+
+/* Опции выпадающего списка */
+.form-priority-select option {
+    background-color: #18181c;
+    color: #e2e2e6;
+}
+
+/* Кнопка добавления задачи — ваш оригинальный стальной блок */
 .form-button {
     padding: 12px 20px;
     background-color: #4e4e56; /* Стальной серый цвет */
@@ -36,28 +80,3 @@
 .form-button:hover {
     background-color: #5c5c64;
 }
-
-.form-priority-select {
-    padding: 12px 16px;
-    border: 1px solid #3e3e44;
-    border-radius: 8px;
-    background-color: #18181c; /* Тот же глубокий серый */
-    color: #ffffff;
-    font-size: 1rem;
-    font-family: inherit;
-    outline: none;
-    cursor: pointer;
-    transition: border-color 0.2s;
-}
-
-/* Эффект фокуса полностью совпадает с .form-input:focus */
-.form-priority-select:focus {
-    border-color: #5c5c64;
-}
-
-/* Стилизация выпадающих вариантов для поддержки темной темы */
-.form-priority-select option {
-    background-color: #18181c;
-    color: #ffffff;
-}
-
