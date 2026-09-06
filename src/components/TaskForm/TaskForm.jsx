@@ -1,11 +1,12 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { useTranslation } from 'react-i18next'; // <-- Импортируем хук для перевода
 import { addTask } from '../../features/tasks/tasksSlice.js';
 import './TaskForm.css';
 
 function TaskForm() {
+    const { t } = useTranslation(); // <-- Инициализируем функцию t
     const [title, setTitle] = useState('');
-    // Локальное состояние для приоритета, по умолчанию "средний"
     const [priority, setPriority] = useState('medium');
 
     const dispatch = useDispatch();
@@ -15,18 +16,16 @@ function TaskForm() {
 
         if (!title.trim()) return;
 
-        // Собираем объект задачи с учетом выбранного приоритета
         dispatch(
             addTask({
                 id: Date.now(),
                 title: title.trim(),
                 createdAt: new Date().toISOString(),
                 completed: false,
-                priority: priority // Добавляем приоритет в объект
+                priority: priority
             })
         );
 
-        // Очищаем текстовое поле, а приоритет сбрасываем на дефолтный
         setTitle('');
         setPriority('medium');
     };
@@ -38,24 +37,24 @@ function TaskForm() {
                     type="text"
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
-                    placeholder="Введите текст..."
+                    placeholder={t('form.placeholder')} // <-- Динамический плейсхолдер
                     className="form-input"
                 />
 
-                {/* Выпадающий список выбора приоритета */}
                 <select
                     value={priority}
                     onChange={(e) => setPriority(e.target.value)}
                     className="form-priority-select"
                 >
-                    <option value="low">Низкий</option>
-                    <option value="medium">Средний</option>
-                    <option value="high">Высокий</option>
+                    {/* Динамический перевод опций приоритета */}
+                    <option value="low">{t('priorities.low')}</option>
+                    <option value="medium">{t('priorities.medium')}</option>
+                    <option value="high">{t('priorities.high')}</option>
                 </select>
             </div>
 
             <button type="submit" className="form-button">
-                Добавить задачу
+                {t('form.button')} {/* <-- Динамический текст кнопки */}
             </button>
         </form>
     );

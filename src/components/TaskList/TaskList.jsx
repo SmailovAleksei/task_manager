@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useTranslation } from 'react-i18next'; // <-- Импортируем хук перевода
 import Filters from '../Filters/Filters.jsx';
 import TaskItem from '../TaskItem/TaskItem.jsx';
 import './TaskList.css';
@@ -28,6 +29,7 @@ const sortStrategies = {
 };
 
 function TaskList({ searchText }) {
+    const { t } = useTranslation(); // <-- Инициализируем функцию t
     const [filterStatus, setFilterStatus] = useState('all');
     const [sortBy, setSortBy] = useState('none');
 
@@ -57,21 +59,22 @@ function TaskList({ searchText }) {
 
     return (
         <div>
-            <h2>Список задач</h2>
+            <h2>{t('list.title')}</h2> {/* <-- Перевод заголовка */}
 
             <Filters filterStatus={filterStatus} setFilterStatus={setFilterStatus} />
 
             <div className="sort-container">
-                <label htmlFor="sort-select">Сортировка: </label>
+                <label htmlFor="sort-select">{t('list.sortLabel')}</label> {/* <-- Перевод "Сортировка: " */}
                 <select
                     id="sort-select"
                     value={sortBy}
                     onChange={(e) => setSortBy(e.target.value)}
                     className="sort-select"
                 >
-                    <option value="none">Без сортировки</option>
-                    <option value="priority">По приоритету</option>
-                    <option value="title">По названию</option>
+                    {/* Перевод опций сортировки */}
+                    <option value="none">{t('list.sortNone')}</option>
+                    <option value="priority">{t('list.sortByPriority')}</option>
+                    <option value="title">{t('list.sortByTitle')}</option>
                 </select>
             </div>
 
@@ -84,7 +87,8 @@ function TaskList({ searchText }) {
                     onClick={() => dispatch(clearCompleted())}
                     className="clear-completed-btn"
                 >
-                    Удалить выполненные ({completedCount})
+                    {/* Передаем completedCount внутрь шаблона перевода */}
+                    {t('actions.clearCompleted', { count: completedCount })}
                 </button>
             )}
         </div>

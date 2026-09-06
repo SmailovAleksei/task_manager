@@ -1,10 +1,15 @@
 import { useSelector, useDispatch } from 'react-redux';
+import { useTranslation } from 'react-i18next'; // <-- Импортируем хук перевода
 import { restoreTask, deleteTaskPermanently, clearTrash } from '../../features/tasks/tasksSlice';
-import './TrashBin.css'; // Обычный импорт чистого CSS файла
+import './TrashBin.css';
 
 function TrashBin() {
+    const { t, i18n } = useTranslation(); // <-- Инициализируем t и i18n
     const trashTasks = useSelector((state) => state.tasks.trash);
     const dispatch = useDispatch();
+
+    // Настраиваем формат времени в зависимости от выбранного языка
+    const currentLangCode = i18n.language.startsWith('ru') ? 'ru-RU' : 'en-US';
 
     return (
         <div className="trash-bin">
@@ -13,12 +18,13 @@ function TrashBin() {
                     onClick={() => dispatch(clearTrash())}
                     className="clear-trash-btn"
                 >
-                    Очистить корзину ({trashTasks.length})
+                    {/* Передаем динамический count в шаблон перевода очистки корзины */}
+                    {t('actions.clearTrash', { count: trashTasks.length })}
                 </button>
             )}
 
             {trashTasks.length === 0 ? (
-                <p className="trash-empty-text">Корзина пуста</p>
+                <p className="trash-empty-text">{t('list.trashEmpty')}</p> /* <-- Перевод "Корзина пуста" */
             ) : (
                 <div className="trash-list">
                     {trashTasks.map((task) => (
@@ -28,7 +34,10 @@ function TrashBin() {
                                     {task.title}
                                 </span>
                                 <div className="trash-date">
-                                    Создано: {new Date(task.createdAt).toLocaleString('ru-RU')}
+                                    {/* Динамическая подстановка даты с нужной локалью */}
+                                    {t('list.createdAt', {
+                                        date: task.createdAt ? new Date(task.createdAt).toLocaleString(currentLangCode) : t('list.dateNotSpecified')
+                                    })}
                                 </div>
                             </div>
 
@@ -37,13 +46,13 @@ function TrashBin() {
                                     onClick={() => dispatch(restoreTask(task.id))}
                                     className="trash-restore-btn"
                                 >
-                                    Восстановить
+                                    {t('actions.restore')} {/* <-- Перевод "Восстановить" */}
                                 </button>
                                 <button
                                     onClick={() => dispatch(deleteTaskPermanently(task.id))}
                                     className="trash-delete-btn"
                                 >
-                                    Удалить навсегда
+                                    {t('actions.deletePermanently')} {/* <-- Перевод "Удалить навсегда" */}
                                 </button>
                             </div>
                         </div>

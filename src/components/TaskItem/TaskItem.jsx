@@ -1,15 +1,9 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { useTranslation } from 'react-i18next'; // <-- Импортируем хук перевода
 import { removeTask, toggleTask, editTask, changeTaskPriority } from '../../features/tasks/tasksSlice';
 
-// Маппинг для красивого текстового отображения с индикатором
-const priorityLabels = {
-    high: '🔴 Высокий',
-    medium: '🟡 Средний',
-    low: '🟢 Низкий'
-};
-
-// Маппинг для динамических CSS-классов
+// Маппинг для динамических CSS-классов оставляем, так как он не зависит от языка
 const priorityClasses = {
     high: 'priority-badge-high',
     medium: 'priority-badge-medium',
@@ -17,13 +11,16 @@ const priorityClasses = {
 };
 
 function TaskItem({ task }) {
+    const { t, i18n } = useTranslation(); // <-- Получаем функции t и i18n
     const dispatch = useDispatch();
     const [isEditing, setIsEditing] = useState(false);
     const [editTitle, setEditTitle] = useState('');
 
+    // Динамически форматируем дату под выбранный язык (ru-RU или en-US)
+    const currentLangCode = i18n.language.startsWith('ru') ? 'ru-RU' : 'en-US';
     const formattedDate = task.createdAt
-        ? new Date(task.createdAt).toLocaleString('ru-RU')
-        : 'Дата не указана';
+        ? new Date(task.createdAt).toLocaleString(currentLangCode)
+        : t('list.dateNotSpecified');
 
     const closeEdit = () => {
         setIsEditing(false);
@@ -76,26 +73,26 @@ function TaskItem({ task }) {
                 )}
 
                 <div className="task-date">
-                    Создано: {formattedDate}
+                    {t('list.createdAt', { date: formattedDate })} {/* <-- Перевод шаблона даты */}
                 </div>
 
-                {/* Вывод текстового индикатора с динамическим CSS-классом */}
+                {/* Динамический вывод индикатора приоритета из JSON */}
                 <div className="task-priority-indicator">
                     <span className={`priority-badge ${priorityClasses[task.priority]}`}>
-                        {priorityLabels[task.priority]}
+                        {t(`priorities.${task.priority}`)}
                     </span>
                 </div>
 
                 <div className="task-priority-container">
-                    <span className="task-priority-label">Изменить: </span>
+                    <span className="task-priority-label">{t('list.changePriority')}</span>
                     <select
                         value={task.priority}
                         onChange={(e) => dispatch(changeTaskPriority({ id: task.id, priority: e.target.value }))}
                         className="task-priority-select"
                     >
-                        <option value="low">Низкий</option>
-                        <option value="medium">Средний</option>
-                        <option value="high">Высокий</option>
+                        <option value="low">{t('priorities.low')}</option>
+                        <option value="medium">{t('priorities.medium')}</option>
+                        <option value="high">{t('priorities.high')}</option>
                     </select>
                 </div>
             </div>
@@ -103,16 +100,20 @@ function TaskItem({ task }) {
             <div className="task-actions">
                 {isEditing ? (
                     <div className="task-actions-edit">
-                        <button onClick={handleSave} className="task-save-btn">Сохранить</button>
-                        <button onClick={handleCancel} className="task-cancel-btn">Отмена</button>
+                        <button onClick={handleSave} className="task-save-btn">
+                            {t('actions.save')}
+                        </button>
+                        <button onClick={handleCancel} className="task-cancel-btn">
+                            {t('actions.cancel')}
+                        </button>
                     </div>
                 ) : (
                     <div className="task-actions-view">
                         <button onClick={() => dispatch(removeTask(task.id))} className="task-delete-btn">
-                            Удалить
+                            {t('actions.delete')}
                         </button>
                         <button onClick={handleStartEdit} className="task-edit-btn">
-                            Редактировать
+                            {t('actions.edit')}
                         </button>
                     </div>
                 )}

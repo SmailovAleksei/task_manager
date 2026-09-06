@@ -1,0 +1,55 @@
+{
+  "translation": {
+    "title": "Task Manager Pro",
+    "tabs": {
+      "myTasks": "📋 My Tasks ({{count}})",
+      "trash": "🗑️ Trash ({{count}})"
+    },
+    "filters": {
+      "all": "All",
+      "active": "Active",
+      "completed": "Completed"
+    },
+    "search": {
+      "placeholder": "Search tasks..."
+    },
+    "form": {
+      "placeholder": "What needs to be done?...",
+      "button": "Add Task",
+      "priorityLabel": "Priority:"
+    },
+    "priorities": {
+      "low": "🟢 Low",
+      "medium": "🟡 Medium",
+      "high": "🔴 High"
+    },
+    "stats": {
+      "total": "Total tasks: ",
+      "active": "Active: ",
+      "completed": "Completed: ",
+      "progress": "Progress: "
+    },
+    "list": {
+      "title": "Task List",
+      "trashTitle": "Trash Bin",
+      "sortLabel": "Sort by: ",
+      "sortNone": "No sorting",
+      "sortByPriority": "By priority",
+      "sortByTitle": "By title",
+      "createdAt": "Created: {{date}}",
+      "changePriority": "Change priority: ",
+      "dateNotSpecified": "Date not specified",
+      "trashEmpty": "Trash bin is empty"
+    },
+    "actions": {
+      "delete": "Delete",
+      "edit": "Edit",
+      "save": "Save",
+      "cancel": "Cancel",
+      "restore": "Restore",
+      "deletePermanently": "Delete permanently",
+      "clearTrash": "Clear trash ({{count}})",
+      "clearCompleted": "Clear completed ({{count}})"
+    }
+  }
+}

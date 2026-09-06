@@ -1,7 +1,9 @@
 import { useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next'; // <-- Импортируем хук перевода
 import './Statistics.css';
 
 function Statistics() {
+    const { t } = useTranslation(); // <-- Инициализируем функцию t
     const tasks = useSelector((state) => state.tasks.items);
 
     const total = tasks.length;
@@ -11,18 +13,20 @@ function Statistics() {
 
     return (
         <div className="task-stats">
-            <div className="stats-item">Всего задач: <span>{total}</span></div>
-            <div className="stats-item">Активных: <span>{active}</span></div>
-            <div className="stats-item">Выполненных: <span>{completed}</span></div>
+            <div className="stats-item">
+                {t('stats.total')} <span>{total}</span> {/* <-- Перевод "Всего задач:" */}
+            </div>
+            <div className="stats-item">
+                {t('stats.active')} <span>{active}</span> {/* <-- Перевод "Активных:" */}
+            </div>
+            <div className="stats-item">
+                {t('stats.completed')} <span>{completed}</span> {/* <-- Перевод "Выполненных:" */}
+            </div>
 
             <div className="stats-item progress-wrapper">
                 <div className="progress-text">
-                    Прогресс: <span>{progress}%</span>
+                    {t('stats.progress')} <span>{progress}%</span> {/* <-- Перевод "Прогресс:" */}
                 </div>
-                {/*
-                  Передаем значение только как конфигурационную CSS-переменную --progress.
-                  Сам тег заполнения остается чистым, без стилизации ширины в коде.
-                */}
                 <div className="progress-bar-container" style={{ '--progress': `${progress}%` }}>
                     <div className="progress-bar-fill"></div>
                 </div>

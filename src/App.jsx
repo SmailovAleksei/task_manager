@@ -1,14 +1,16 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import { loadTasks } from './features/tasks/tasksSlice';
 import TaskForm from "./components/TaskForm/TaskForm.jsx";
 import Statistics from "./components/Statistics/Statistics.jsx";
 import TaskList from "./components/TaskList/TaskList.jsx";
-import TrashBin from "./components/TrashBin/TrashBin.jsx";
+import TrashBin from "./components/Trashbin/Trashbin.jsx";
 import Search from "./components/Search/Search.jsx";
 import './App.css';
 
 function App() {
+    const { t, i18n } = useTranslation();
     const tasksState = useSelector((state) => state.tasks);
     const dispatch = useDispatch();
 
@@ -48,22 +50,35 @@ function App() {
         }
     }, [currentTab]);
 
+    const toggleLanguage = () => {
+        const nextLang = i18n.language.startsWith('ru') ? 'en' : 'ru';
+        i18n.changeLanguage(nextLang);
+    };
+
     return (
         <div className="app-container">
-            <h1 className="app-title">Task Manager Pro</h1>
+            {/* Кнопка переключения языка теперь изолирована в верхнем углу */}
+            <button onClick={toggleLanguage} className="lang-toggle-btn">
+                {i18n.language.startsWith('ru') ? 'EN' : 'RU'}
+            </button>
+
+            <header className="app-header">
+                <h1 className="app-title">{t('title')}</h1>
+                <Statistics />
+            </header>
 
             <div className="tab-navigation">
                 <button
                     onClick={() => setCurrentTab('tasks')}
                     className={`tab-btn ${currentTab === 'tasks' ? 'active' : ''}`}
                 >
-                    Мои задачи ({tasksState.items.length})
+                    {t('tabs.myTasks', { count: tasksState.items.length })}
                 </button>
                 <button
                     onClick={() => setCurrentTab('trash')}
                     className={`tab-btn ${currentTab === 'trash' ? 'active' : ''}`}
                 >
-                    Корзина ({tasksState.trash.length})
+                    {t('tabs.trash', { count: tasksState.trash.length })}
                 </button>
             </div>
 
@@ -72,11 +87,9 @@ function App() {
             {currentTab === 'tasks' ? (
                 <>
                     <TaskForm />
-                    <Statistics />
                     <TaskList searchText={searchText} />
                 </>
             ) : (
-                /* ИСПРАВЛЕНИЕ: Убрали лишний prop searchText, корзина теперь чистая */
                 <TrashBin />
             )}
         </div>

@@ -1,0 +1,55 @@
+{
+  "translation": {
+    "title": "Task Manager Pro",
+    "tabs": {
+      "myTasks": "📋 Мои задачи ({{count}})",
+      "trash": "🗑️ Корзина ({{count}})"
+    },
+    "filters": {
+      "all": "Все",
+      "active": "Активные",
+      "completed": "Выполненные"
+    },
+    "search": {
+      "placeholder": "Поиск задач..."
+    },
+    "form": {
+      "placeholder": "Что нужно сделать?...",
+      "button": "Добавить",
+      "priorityLabel": "Приоритет:"
+    },
+    "priorities": {
+      "low": "🟢 Низкий",
+      "medium": "🟡 Средний",
+      "high": "🔴 Высокий"
+    },
+    "stats": {
+      "total": "Всего задач: ",
+      "active": "Активных: ",
+      "completed": "Выполненных: ",
+      "progress": "Прогресс: "
+    },
+    "list": {
+      "title": "Список задач",
+      "trashTitle": "Корзина",
+      "sortLabel": "Сортировка: ",
+      "sortNone": "Без сортировки",
+      "sortByPriority": "По приоритету",
+      "sortByTitle": "По названию",
+      "createdAt": "Создано: {{date}}",
+      "changePriority": "Изменить приоритет: ",
+      "dateNotSpecified": "Дата не указана",
+      "trashEmpty": "Корзина пуста"
+    },
+    "actions": {
+      "delete": "Удалить",
+      "edit": "Редактировать",
+      "save": "Сохранить",
+      "cancel": "Отмена",
+      "restore": "Восстановить",
+      "deletePermanently": "Удалить навсегда",
+      "clearTrash": "Очистить корзину ({{count}})",
+      "clearCompleted": "Удалить выполненные ({{count}})"
+    }
+  }
+}
