@@ -7,11 +7,13 @@ import Statistics from "./components/Statistics/Statistics.jsx";
 import TaskList from "./components/TaskList/TaskList.jsx";
 import TrashBin from "./components/Trashbin/Trashbin.jsx";
 import Search from "./components/Search/Search.jsx";
+import { selectTotalCount } from './features/tasks/tasksSelectors.js';
 import './App.css';
 
 function App() {
     const { t, i18n } = useTranslation();
     const tasksState = useSelector((state) => state.tasks);
+    const totalCount = useSelector(selectTotalCount); // <-- Получаем количество активных задач через селектор
     const dispatch = useDispatch();
 
     const [searchText, setSearchText] = useState('');
@@ -38,7 +40,7 @@ function App() {
         try {
             localStorage.setItem('tasks', JSON.stringify(tasksState));
         } catch (error) {
-            console.error('Не удалось сохранить задачи в localStorage:', error);
+            console.error('Не удалось保存задачи в localStorage:', error);
         }
     }, [tasksState]);
 
@@ -57,7 +59,6 @@ function App() {
 
     return (
         <div className="app-container">
-            {/* Кнопка переключения языка теперь изолирована в верхнем углу */}
             <button onClick={toggleLanguage} className="lang-toggle-btn">
                 {i18n.language.startsWith('ru') ? 'EN' : 'RU'}
             </button>
@@ -72,7 +73,8 @@ function App() {
                     onClick={() => setCurrentTab('tasks')}
                     className={`tab-btn ${currentTab === 'tasks' ? 'active' : ''}`}
                 >
-                    {t('tabs.myTasks', { count: tasksState.items.length })}
+                    {/* Используем totalCount из селектора вместо прямого обращения к стейту */}
+                    {t('tabs.myTasks', { count: totalCount })}
                 </button>
                 <button
                     onClick={() => setCurrentTab('trash')}
