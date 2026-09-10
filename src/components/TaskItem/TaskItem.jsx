@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next'; // <-- Импортируем хук перевода
 import { removeTask, toggleTask, editTask, changeTaskPriority } from '../../features/tasks/tasksSlice';
+import './TaskItem.css';
 
 // Маппинг для динамических CSS-классов оставляем, так как он не зависит от языка
 const priorityClasses = {

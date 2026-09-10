@@ -1,8 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+// Чистый начальный стейт без побочных эффектов чтения и импортов API
 const initialState = {
-    items: [], // Активные задачи
-    trash: []  // Удаленные задачи (корзина)
+    items: [],
+    trash: []
 };
 
 const tasksSlice = createSlice({
@@ -63,16 +64,14 @@ const tasksSlice = createSlice({
                 : [];
         },
 
-        // Исправленный редюсер: теперь сохраняет и текст, и приоритет
         editTask: (state, action) => {
             const task = state.items.find(item => item.id === action.payload.id);
             if (task) {
                 task.title = action.payload.title;
-                task.priority = action.payload.priority; // Больше никакого JSX тут нет!
+                task.priority = action.payload.priority;
             }
         },
 
-        // Новый редюсер для быстрого изменения приоритета при просмотре
         changeTaskPriority: (state, action) => {
             const task = state.items.find(item => item.id === action.payload.id);
             if (task) {
@@ -98,7 +97,7 @@ export const {
     loadTasks,
     editTask,
     clearCompleted,
-    changeTaskPriority // Не забыли экспортировать
+    changeTaskPriority
 } = tasksSlice.actions;
 
 export default tasksSlice.reducer;

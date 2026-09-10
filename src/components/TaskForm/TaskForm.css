@@ -1,9 +1,23 @@
-/* Главный контейнер формы — выравнивание элементов */
+/* ==========================================================================
+   СТИЛИ ФОРМЫ ДОБАВЛЕНИЯ ЗАДАЧ (src/components/TaskForm/TaskForm.css)
+   ========================================================================== */
+
+/* Главный контейнер формы — выравнивание элементов в один ряд на десктопе */
 .task-form {
     display: flex;
     gap: 12px;
     margin-bottom: 24px;
     align-items: center;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Обертка для инпута и селектора приоритета */
+.form-inputs-wrapper {
+    display: flex;
+    gap: 12px;
+    flex: 1; /* Занимает всё доступное пространство слева от кнопки */
+    min-width: 0; /* Защита от распирания длинным текстом */
 }
 
 /* Базовые общие настройки для шрифтов и боксовой модели */
@@ -11,17 +25,18 @@
 .form-priority-select,
 .form-button {
     font-family: inherit;
-    box-sizing: border-box; /* Защита от прыжков высоты */
+    box-sizing: border-box;
 }
 
-/* Текстовое поле ввода — яркий текст, как у названия ваших задач (.task-text) */
+/* Текстовое поле ввода */
 .form-input {
     flex: 1;
+    min-width: 0; /* Важно для адаптивности во флексах */
     padding: 12px 16px;
     border: 1px solid #3e3e44;
     border-radius: 8px;
     background-color: #18181c;
-    color: #e2e2e6; /* Цвет совпадает с вашим .task-text */
+    color: #e2e2e6;
     font-size: 1rem;
     outline: none;
     transition: border-color 0.2s;
@@ -31,42 +46,40 @@
     border-color: #5c5c64;
 }
 
-/* Выпадающий список приоритетов — копия вашей кнопки фильтра (.filter-btn) и (.sort-select) */
+/* Выпадающий список приоритетов */
 .form-priority-select {
     background-color: #18181c;
-    border: 1px solid #28282c; /* Граница как у .filter-btn */
-    color: #a0a0a5; /* Приглушенный цвет текста, как у ваших фильтров и кнопок */
+    border: 1px solid #28282c;
+    color: #a0a0a5;
     padding: 12px 16px;
     border-radius: 8px;
-    font-size: 0.9rem; /* Размер шрифта как у .filter-btn */
+    font-size: 0.9rem;
     cursor: pointer;
     outline: none;
     transition: all 0.2s ease;
+    flex-shrink: 0; /* Запрещает селектору сжиматься в ноль */
 }
 
-/* Эффект наведения на селект — копия вашего .filter-btn:hover */
 .form-priority-select:hover {
     background-color: #28282c;
     color: #e2e2e6;
 }
 
-/* Эффект фокуса на селект — копия вашего .filter-btn.active */
 .form-priority-select:focus {
     background-color: #28282c;
     border-color: #5c5c64;
     color: #e2e2e6;
 }
 
-/* Опции выпадающего списка */
 .form-priority-select option {
     background-color: #18181c;
     color: #e2e2e6;
 }
 
-/* Кнопка добавления задачи — ваш оригинальный стальной блок */
+/* Кнопка добавления задачи */
 .form-button {
     padding: 12px 20px;
-    background-color: #4e4e56; /* Стальной серый цвет */
+    background-color: #4e4e56;
     color: #ffffff;
     border: none;
     border-radius: 8px;
@@ -75,8 +88,39 @@
     cursor: pointer;
     transition: background-color 0.2s;
     white-space: nowrap;
+    flex-shrink: 0; /* Кнопка жестко держит свой размер и не улетает */
 }
 
 .form-button:hover {
     background-color: #5c5c64;
+}
+
+/* ==========================================================================
+   АДАПТИВНОСТЬ ДЛЯ СМАРАТФОНОВ И TELEGRAM WEBVIEW
+   ========================================================================== */
+@media (max-width: 480px) {
+    /* Перестраиваем форму в вертикальный стек */
+    .task-form {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+    }
+
+    /* Инпут и селект тоже выстраиваем друг под другом */
+    .form-inputs-wrapper {
+        flex-direction: column;
+        gap: 10px;
+        width: 100%;
+    }
+
+    /* Селект и кнопка растягиваются на всю ширину экрана смартфона */
+    .form-priority-select,
+    .form-button {
+        width: 100%;
+        text-align: center;
+    }
+
+    .form-button {
+        height: 44px; /* Удобный размер для нажатия пальцем */
+    }
 }

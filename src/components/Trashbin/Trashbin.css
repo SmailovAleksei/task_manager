@@ -1,3 +1,7 @@
+/* ==========================================================================
+   СТИЛИ КОМПОНЕНТА КОРЗИНЫ (src/components/Trashbin/TrashBin.css)
+   ========================================================================== */
+
 .trash-bin {
     padding: 10px 0;
 }
@@ -38,11 +42,20 @@
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
-    padding: 14px 16px;
+    gap: 16px;                 /* Синхронизировано со списком задач */
+    padding: 16px;             /* Синхронизировано со списком задач */
     background-color: #18181c;
-    border-radius: 8px;
+    border-radius: 12px;       /* Синхронизировано со списком задач */
     border: 1px solid #28282c;
     box-sizing: border-box;
+    transition: border-color 0.2s;
+
+    /* Жестко ограничиваем флекс-контекст карточки, чтобы она не распирала приложение в Telegram */
+    min-width: 0;
+}
+
+.trash-bin-card:hover {
+    border-color: #3e3e44;     /* Ховер-эффект, как у задач */
 }
 
 .trash-info-block {
@@ -50,6 +63,9 @@
     flex-direction: column;
     flex: 1;
     margin-right: 12px;
+
+    /* Защита флекс-дочернего элемента от бесконечного расширения строк */
+    min-width: 0;
 }
 
 .trash-text {
@@ -73,6 +89,9 @@
     display: flex;
     align-items: center;
     gap: 8px;
+
+    /* Запрещаем блоку кнопок деформироваться, раздувая родительский контейнер */
+    flex-shrink: 0;
 }
 
 .trash-restore-btn,
@@ -85,6 +104,11 @@
     font-size: 0.85rem;
     cursor: pointer;
     transition: all 0.2s;
+
+    /* Разрешаем длинному тексту кнопок переноситься на новую строку при нехватке места */
+    white-space: normal;
+    text-align: center;
+    max-width: 110px; /* Лимитируем ширину под мобильные экраны */
 }
 
 .trash-restore-btn:hover {
